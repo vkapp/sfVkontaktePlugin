@@ -248,7 +248,7 @@ function vkApp(callback /*, options*/) {
 	};
 	this.resizeWindow = function() {
 		window.setTimeout(function() {
-			VK.callMethod('resizeWindow', $(document.body).outerWidth(true), $(document.body).outerHeight(true)); 
+			VK.callMethod('resizeWindow', $(document).width(), $(document).height());
 		}, 100);
 	};
 	/**
