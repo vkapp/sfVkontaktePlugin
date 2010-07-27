@@ -249,16 +249,16 @@ function vkApp(callback /*, options*/) {
 	this.resizeWindow = function() {
 		window.setTimeout(function() {
 			var maxHeight = $(document.body).outerHeight(true);
-			$(document).find('div').each(function(i, o) {
+			$(document).find('div:visible').each(function(i, o) {
 				if ($(o).css('position') == 'absolute' && !$(o).hasClass('ui-widget-overlay')) {
 					var tmpHeight = $(o).outerHeight(true);
 					if (tmpHeight > maxHeight) {
 						maxHeight = tmpHeight;
-						//console.log($(o), tmpHeight);
+						console.log($(o), tmpHeight);
 					}
 				}
 			});
-			//console.log(maxHeight);
+			console.log(maxHeight);
 			VK.callMethod('resizeWindow', $(document).width(), maxHeight);
 			$(window).trigger('resize.dialog-overlay');			
 		}, 100);
