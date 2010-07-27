@@ -254,11 +254,11 @@ function vkApp(callback /*, options*/) {
 					var tmpHeight = $(o).outerHeight(true);
 					if (tmpHeight > maxHeight) {
 						maxHeight = tmpHeight;
-						console.log($(o), tmpHeight);
+						//console.log($(o), tmpHeight);
 					}
 				}
 			});
-			console.log(maxHeight);
+			//console.log(maxHeight);
 			VK.callMethod('resizeWindow', $(document).width(), maxHeight);
 			$(window).trigger('resize.dialog-overlay');			
 		}, 100);
