@@ -73,6 +73,7 @@ all:
       photo:        { type: string }
       photo_medium: { type: string }
       photo_big:    { type: string }
+      photo_rec:    { type: string }
       has_mobile:   { type: boolean }
       rate:         { type: float }
       home_phone:   { type: string }
