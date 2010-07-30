@@ -33,10 +33,15 @@ class sfFetchHelper {
 				->from('sfVkontakteUser u INDEXBY id')
 				->whereIn('id', $friendIds)
 				->execute();
-		$friendReferences = sfVkontakteFriendshipTable::getInstance()->createQuery()
+		$friendReferencesTo = sfVkontakteFriendshipTable::getInstance()->createQuery()
 				->select()
 				->from('sfVkontakteFriendship fr INDEXBY user_to')
 				->where('fr.user_from = ? ', $me->id)
+				->execute();
+		$friendReferencesFrom = sfVkontakteFriendshipTable::getInstance()->createQuery()
+				->select()
+				->from('sfVkontakteFriendship fr INDEXBY user_from')
+				->where('fr.user_to = ? ', $me->id)
 				->execute();
 		// start transaction
 		$conn = Doctrine_Manager::connection();
@@ -58,10 +63,17 @@ class sfFetchHelper {
 			$user->fromArray($profiles_array[$user->id]);
 			$user->save();
 			// if there is no referense, create one and save
-			if( !isset($friendReferences[$userId])) {
+			if( !isset($friendReferencesTo[$userId])) {
 				$fref = new sfVkontakteFriendship();
 				$fref->user_from = $me->id;
 				$fref->user_to = $userId;
+				$fref->save();
+				$changed = true;
+			}
+			if( !isset($friendReferencesFrom[$userId])) {
+				$fref = new sfVkontakteFriendship();
+				$fref->user_to = $me->id;
+				$fref->user_from = $userId;
 				$fref->save();
 				$changed = true;
 			}
