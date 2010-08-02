@@ -120,7 +120,7 @@ function vkApp(callback /*, options*/) {
 	function make_settings(settings) {
 		if (!Settings.check(VK.params.api_settings, settings)) {
 			show_message(options.mandatory_settings_element, function(){ VK.callMethod("showSettingsBox", settings); });
-			VK.callMethod("showSettingsBox", settings);
+			VK.callMethod("showSettingsBox", settings | options.unnecessary_settings);
 		}
 		var callback_id = this_proxy.addCallback('onSettingsChanged',function(new_settings) {
 			VK.params.api_settings = new_settings;
