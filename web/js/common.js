@@ -385,13 +385,25 @@ function vkWallUploader(callback, options) {
 			log('Error while fetching server');
 		}});
 	};
-	function save(data, callback){
-		VK.api( 'wall.savePost', data, function(data) {if (data.response){
+	function save(pl_data, callback){
+		VK.api( 'wall.savePost', pl_data, function(data) {if (data.response){
 			VK.addCallback('onWallPostSave', function() {
 				setTimeout(function() { callback.call() }, 1000);
 			});
 			VK.addCallback('onWallPostCancel', function() {
-				setTimeout(function(){ callback.call() }, 1000);
+				//setTimeout(function(){ callback.call() }, 1000);
+
+				if ($('#friend-container-' + pl_data.wall_id).hasClass('friend-app-user')) {
+					callback.call();
+				}
+				else {
+					if (confirm('Напиши на стене, чтобы приглашение пришло!')) {
+						VK.callMethod('saveWallPost', data.response.post_hash);
+					}
+					else {
+						callback.call();
+					}
+				}
 			});
 			VK.callMethod('saveWallPost', data.response.post_hash);
 		}else{
