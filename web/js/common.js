@@ -248,10 +248,11 @@ function vkApp(callback /*, options*/) {
 	};
 	this.resizeWindow = function() {
 		window.setTimeout(function() {
-			var maxHeight = $(document.body).outerHeight(true);
+			var maxHeight = $(document.body).outerHeight(true), tmpHeight, offset;
 			$(document).find('div:visible').each(function(i, o) {
 				if ($(o).css('position') == 'absolute' && !$(o).hasClass('ui-widget-overlay')) {
-					var tmpHeight = $(o).outerHeight(true);
+					offset = $(o).offset();
+					tmpHeight = $(o).outerHeight(true) + offset.top;
 					if (tmpHeight > maxHeight) {
 						maxHeight = tmpHeight;
 						//console.log($(o), tmpHeight);
@@ -259,7 +260,7 @@ function vkApp(callback /*, options*/) {
 				}
 			});
 			//console.log(maxHeight);
-			VK.callMethod('resizeWindow', $(document).width(), maxHeight);
+			VK.callMethod('resizeWindow', $(document).width(), maxHeight + 10);
 			$(window).trigger('resize.dialog-overlay');			
 		}, 100);
 	};
